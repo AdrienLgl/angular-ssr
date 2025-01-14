@@ -2,6 +2,8 @@
 
 This project demonstrates how to build and deploy a secure Angular website using Server-Side Rendering (SSR) with a Content Security Policy (CSP) leveraging nonce values.
 
+![image](./src/assets/images/scientist.webp)
+
 ## Key Features
 
 1. **Server-Side Rendering (SSR)**: Utilize Angular Universal for improved performance, SEO optimization, and fast page rendering from the server.  
@@ -52,4 +54,28 @@ This project demonstrates how to build and deploy a secure Angular website using
 4. **Secure and Maintain Your Deployment:**
    To secure and optimize the performance of your deployment, you can use a reverse proxy with **NGINX** along with **pm2** for managing the server process. Here's a basic setup:
    - **NGINX**: Acts as a reverse proxy to forward client requests to your Node.js server.
+
+   ```
+   server {
+    listen 80;
+    server_name your_domain.com;
+
+    location / {
+        proxy_pass http://localhost:4000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+   }
+   ```
+
    - **pm2**: A process manager for Node.js applications that ensures your server runs in the background and restarts automatically in case of crashes.
+
+   ```bash
+   pm2 start dist/your_project_name/server/server.mjs --name "angular-ssr"
+   pm2 save
+   pm2 startup
+   ```
+
